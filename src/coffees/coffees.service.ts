@@ -1,4 +1,4 @@
-import { Body, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCoffeeDto } from 'src/coffees/dto/create-coffee.dto';
 import { Coffee } from 'src/coffees/entities/coffee.entity';
 
@@ -50,7 +50,7 @@ export class CoffeesService {
     return coffee;
   }
 
-  create(@Body() createCoffeeDto: CreateCoffeeDto) {
+  create(createCoffeeDto: any) {
     return this.coffees.push(createCoffeeDto);
   }
 
