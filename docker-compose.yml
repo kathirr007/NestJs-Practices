@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:16
+    image: postgres
     restart: always
     ports:
       - "5432:5432"  # Host:5433 → Container:5432
@@ -10,6 +10,5 @@ services:
       POSTGRES_PASSWORD: test123
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 volumes:
   postgres_data:
