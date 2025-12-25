@@ -1,8 +1,18 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT ?? 3000);
+  app.useGlobalPipes(new ValidationPipe());
+  await app
+    .listen(process.env.PORT ?? 3000)
+    .then(() =>
+      console.log(
+        `Server listening on - http://localhost:${process.env.PORT || 3000}`,
+      ),
+    )
+    .catch((err) => console.log(err));
 }
+
 bootstrap();
