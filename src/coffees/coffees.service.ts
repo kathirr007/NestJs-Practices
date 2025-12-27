@@ -50,7 +50,7 @@ export class CoffeesService {
   }
 
   async findOne(id: string) {
-    const coffee = await this.coffeeRepository.findOne(id);
+    const coffee = await this.coffeeRepository.findOne({ where: { id: +id } });
     if (!coffee) {
       throw new NotFoundException(`Coffee with id ${id} not found`);
     }
