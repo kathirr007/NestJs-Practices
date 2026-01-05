@@ -9,10 +9,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     CoffeesModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: '127.0.0.1',
+      host: 'iluvecoffee-db',
       port: 5432,
       username: 'postgres', // New user
-      password: 'test123', // New password
+      password: 'postgres', // New password
       database: 'postgres',
       autoLoadEntities: true,
       synchronize: true,

@@ -1,10 +1,63 @@
 services:
-  db:
-    image: postgres
-    restart: always
+  # Development service
+  app-dev:
+    container_name: iluvecoffee-app-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    env_file:
+      - .env.development
     ports:
-      - "5432:5432"  # Host:5433 → Container:5432
+      - '4000:4000'
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - iluvecoffee-db
+    profiles:
+      - dev
+    # Force use of pnpm run
+    command: pnpm run start:dev
+
+  # Production service
+  app-prod:
+    container_name: iluvecoffee-app-prod
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    env_file:
+      - .env.production
+    ports:
+      - '8090:4000'
+    depends_on:
+      - iluvecoffee-db
+    profiles:
+      - prod
+
+  # Database service (PostgreSQL)
+  iluvecoffee-db:
+    image: postgres:17-alpine
+    container_name: iluvecoffee-db
     environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: test123
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  # pgAdmin service (PostgreSQL)
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: iluvecoffee-pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@example.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - '5050:80'
+    depends_on:
+      - iluvecoffee-db
+
+volumes:
+  db-data:
