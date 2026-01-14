@@ -17,7 +17,7 @@ COPY package.json pnpm-lock.yaml .npmrc ./
 # --frozen-lockfile ensures consistency, --shamefully-hoist mimics npm structure
 RUN pnpm install --shamefully-hoist --frozen-lockfile
 
-COPY . .
+# COPY . .
 
 # 4. Use the full path or pnpm exec to run the dev server
 CMD ["pnpm", "run", "start:dev"]
